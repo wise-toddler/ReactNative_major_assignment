@@ -66,6 +66,7 @@ export default function ExpensesScreen({ navigation, route }) {
         keyExtractor={(item) => item}
         showsHorizontalScrollIndicator={false}
         style={styles.categoryFilter}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={[styles.filterChip, selectedCategory === item && styles.filterChipActive]}
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   header: { backgroundColor: '#4CAF50', padding: 20, paddingTop: 60 },
   title: { fontSize: 28, fontWeight: 'bold', color: '#fff' },
   total: { fontSize: 16, color: '#E8F5E9', marginTop: 5 },
-  categoryFilter: { backgroundColor: '#fff', paddingVertical: 15, paddingHorizontal: 10 },
+  categoryFilter: { backgroundColor: '#fff', paddingVertical: 15 },
   filterChip: { paddingHorizontal: 16, paddingVertical: 8, marginHorizontal: 5, borderRadius: 20, backgroundColor: '#f0f0f0' },
   filterChipActive: { backgroundColor: '#4CAF50' },
   filterText: { color: '#666', fontWeight: '500' },
