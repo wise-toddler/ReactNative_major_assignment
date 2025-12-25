@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useExpense } from '../context/ExpenseContext';
 
 const CATEGORIES = ['All', 'Food', 'Transport', 'Shopping', 'Bills', 'Entertainment', 'Health', 'Education', 'Other'];
@@ -60,22 +60,23 @@ export default function ExpensesScreen({ navigation, route }) {
         <Text style={styles.total}>Total: ₹{totalFiltered.toFixed(2)}</Text>
       </View>
 
-      <FlatList
-        horizontal
-        data={CATEGORIES}
-        keyExtractor={(item) => item}
-        showsHorizontalScrollIndicator={false}
-        style={styles.categoryFilter}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[styles.filterChip, selectedCategory === item && styles.filterChipActive]}
-            onPress={() => setSelectedCategory(item)}
-          >
-            <Text style={[styles.filterText, selectedCategory === item && styles.filterTextActive]}>{item}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      <View style={styles.categoryContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.categoryContent}
+        >
+          {CATEGORIES.map((item) => (
+            <TouchableOpacity
+              key={item}
+              style={[styles.filterChip, selectedCategory === item && styles.filterChipActive]}
+              onPress={() => setSelectedCategory(item)}
+            >
+              <Text style={[styles.filterText, selectedCategory === item && styles.filterTextActive]}>{item}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
 
       <FlatList
         data={filteredExpenses}
@@ -99,8 +100,9 @@ const styles = StyleSheet.create({
   header: { backgroundColor: '#4CAF50', padding: 20, paddingTop: 60 },
   title: { fontSize: 28, fontWeight: 'bold', color: '#fff' },
   total: { fontSize: 16, color: '#E8F5E9', marginTop: 5 },
-  categoryFilter: { backgroundColor: '#fff', paddingVertical: 15 },
-  filterChip: { paddingHorizontal: 16, paddingVertical: 8, marginHorizontal: 5, borderRadius: 20, backgroundColor: '#f0f0f0' },
+  categoryContainer: { backgroundColor: '#fff', paddingVertical: 15 },
+  categoryContent: { paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center' },
+  filterChip: { paddingHorizontal: 16, paddingVertical: 8, marginRight: 10, borderRadius: 20, backgroundColor: '#f0f0f0' },
   filterChipActive: { backgroundColor: '#4CAF50' },
   filterText: { color: '#666', fontWeight: '500' },
   filterTextActive: { color: '#fff' },
